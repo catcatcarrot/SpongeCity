@@ -1,0 +1,28 @@
+<title>文章列表</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>众包审核</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+		<div class="layui-tab-content" lay-filter="form-analysis-data">
+           <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+		</div>
+    </div>
+</div>
+
+<script>
+    layui.use('crowdsourcing', layui.factory('crowdsourcing')).use(['admin', 'crowdsourcing', 'table'], function() {
+        var $ = layui.$,
+            admin = layui.admin,
+            view = layui.view,
+			form = layui.form,
+            table = layui.table;
+
+		form.render(null, 'form-analysis-data');
+    });
+</script>

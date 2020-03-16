@@ -1,0 +1,150 @@
+<title>积水预测</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>积水预测</cite></a>
+  </div>
+</div>
+
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+
+
+        <script>
+          var map;
+          var layer;
+          require([
+            "esri/map", "esri/dijit/BasemapGallery", "esri/arcgis/utils", "esri/layers/ArcGISDynamicMapServiceLayer",
+            "dojo/parser",
+            "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/TitlePane",
+            "dojo/domReady!"
+          ], function (
+            Map, BasemapGallery, arcgisUtils, ArcGISDynamicMapServiceLayer,
+            parser
+          ) {
+            parser.parse();
+
+            map = new Map("map", {
+              basemap: "topo",
+              center: [108.6911530953, 34.2799666458],
+              zoom: 12
+            });
+
+            //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
+            var basemapGallery = new BasemapGallery({
+              showArcGISBasemaps: true,
+              map: map
+            }, "basemapGallery");
+            basemapGallery.startup();
+
+            basemapGallery.on("error", function (msg) {
+              console.log("basemap gallery error:  ", msg);
+            });
+
+            //利用url创建一个动态地图服务对象
+            layer = new ArcGISDynamicMapServiceLayer("http://localhost:6080/arcgis/rest/services/HaiMianCity/haimianMap/MapServer", {});
+            map.addLayer(layer);
+
+          });
+
+          //显示所有试点区域
+          function getPilotArea() {
+            if ($("#pilotArea").is(":checked") == true) {
+              layer.setVisibleLayers([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            }
+          }
+
+          //显示管网
+          function getPipeline() {
+            if ($("#pipeline").is(":checked") == true) {
+              layer.setVisibleLayers([0]);
+            }
+          }
+
+          //显示片区
+          function getArea() {
+            var value = $("#layerToggle1").val();
+            switch (value) {
+              case "18":
+                layer.setVisibleLayers([18]);
+                break;
+              case "17":
+                layer.setVisibleLayers([17]);
+                break;
+              case "16":
+                layer.setVisibleLayers([16]);
+                break;
+              case "15":
+                layer.setVisibleLayers([15]);
+                break;
+              case "14":
+                layer.setVisibleLayers([14]);
+                break;
+              case "13":
+                layer.setVisibleLayers([13]);
+                break;
+              case "12":
+                layer.setVisibleLayers([12]);
+                break;
+              case "11":
+                layer.setVisibleLayers([11]);
+                break;
+              case "10":
+                layer.setVisibleLayers([10]);
+                break;
+              default:
+                layer.setVisibleLayers([10, 11, 12, 13, 14, 15, 16, 17, 18]);
+            }
+          }
+        </script>
+
+        <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters:false"
+          style="width:100%;height:1000px;margin:0;">
+
+          <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="padding:0;">
+
+            <div style="position:absolute; right:20px; top:10px; z-Index:999;">
+              <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'更换底图', open:false">
+                <div data-dojo-type="dijit/layout/ContentPane" style="width:380px; height:280px; overflow:auto;">
+                  <div id="basemapGallery"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="changeLayer">
+              <span id="layerToggle" style="right:100px;">
+                <input type="checkbox" id="pilotArea" onclick="getPilotArea()">试点区域
+              </span>
+              <span id="layerToggle" style="right:250px;">
+                <input type="checkbox" id="streetLyr" checked>雨水花园
+              </span>
+              <span id="layerToggle" style="right:400px;">
+                <input type="checkbox" id="pipeline" onclick="getPipeline()">管网
+              </span>
+              <select id="layerToggle1" onclick="getArea()">
+                <option value="default">全局</option>
+                <option value="18">1#汇水片区</option>
+                <option value="17">2#汇水片区</option>
+                <option value="16">3#汇水片区</option>
+                <option value="15">4#汇水片区</option>
+                <option value="14">5#汇水片区</option>
+                <option value="13">6#汇水片区</option>
+                <option value="12">7#汇水片区</option>
+                <option value="11">8#汇水片区</option>
+                <option value="10">9#汇水片区</option>
+              </select>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>运维调度</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief" lay-filter="app-content-task">
+            <ul class="layui-tab-title">
+                <li class="layui-this">待处理任务</li>
+                <li>待分配任务</li>
+                <li>已分配任务</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <table id="deal-task" lay-filter="deal-task"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <table id="assign-task" lay-filter="assign-task"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <table id="already-assign-task" lay-filter="already-assign-task"></table>
+                </div>
+				
+				<script type="text/html" id="table-deal-task">
+				    <a lay-event="deal" style="color:#008B8B"><i class="layui-icon layui-icon-ok"></i>处理</a>
+				</script>
+				<script type="text/html" id="table-assign-task">
+					<a lay-event="assign" style="color:#008B8B"><i class="layui-icon layui-icon-ok"></i>分配</a>
+				</script>
+				<script type="text/html" id="isAccept">
+					{{#  if(d.accept ==0){ }}
+							<div>未接受</div>
+					{{#  } else{ }}
+							<div>已接受</div>
+					{{# } }}
+				</script>
+				<script type="text/html" id="changeColor">
+				  {{#  if(d.faultName =="轻微积水"){ }}
+					<div style="color:#66FF66">{{d.faultName}}</div>
+				  {{#  } else if(d.faultName=="中度积水") { }}
+					<div style="color:#EEEE00">{{d.faultName}}</div>
+				  {{#  } else{ }}
+					<div style="color:#FF5511">{{d.faultName}}</div>
+				  {{# } }}
+				</script>
+				
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('dispatcher', layui.factory('dispatcher')).use(['admin', 'dispatcher', 'table', 'util', 'element'], function() {
+        var $ = layui.$,
+            admin = layui.admin,
+            view = layui.view,
+            table = layui.table,
+            form = layui.form,
+            element = layui.element; //Tab的切换功能
+		
+		//监听选项卡
+		element.on('tab', function(data){
+			if(data.index==0){
+				layui.table.reload('deal-task');
+			}else if(data.index==1){
+				layui.table.reload('assign-task');
+			}else if(data.index==2){
+				layui.table.reload('already-assign-task');
+			}
+		});
+
+        form.render(null, 'app-content-task');
+
+    });
+</script>

@@ -1,0 +1,75 @@
+<title>设备报废</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+		<a><cite>设施管理</cite></a>
+        <a><cite>设备报废</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-comment">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="hidden" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="hidden" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" name="number" placeholder="输入设施编号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-comm" data-type="reload" lay-submit lay-filter="LAY-app-contcomm-search">
+            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+          </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+
+            <table id="LAY-app-content-comm" lay-filter="LAY-app-content-comm"></table>
+            <script type="text/html" id="table-facility-scrap">
+                <a lay-event="sea" style="color:#008B8B"><i class="layui-icon layui-icon-search"></i>查看</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use('facility_out', layui.factory('facility_out')).use(['admin', 'facility_out', 'table'], function() {
+        var $ = layui.$,
+            admin = layui.admin,
+            view = layui.view,
+            table = layui.table,
+            form = layui.form;
+
+        form.render(null, 'app-content-comment');
+
+        //监听搜索
+        form.on('submit(LAY-app-contcomm-search)', function(data) {
+            var field = data.field;
+			var number = field.number;
+
+            //执行重载
+            table.reload('LAY-app-content-comm', {
+                elem: "#LAY-app-content-comm",
+                url: "/searchFacility",
+                method:"GET",
+                where:{"status":2,
+				        "number":number
+					}
+            });
+        });
+		
+    });
+</script>

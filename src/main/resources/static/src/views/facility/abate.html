@@ -1,0 +1,140 @@
+<title>设施监控设备</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+		<a><cite>设施管理</cite></a>
+        <a><cite>设施监控</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+            <div class="layui-form-item">
+				<div class="layui-inline">
+				    <div class="layui-input-inline">
+						 <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+				    </div>
+				</div>
+
+                <!-- <div class="layui-inline">
+                    <div class="layui-input-inline">
+                    </div>
+                </div> -->
+                <div class="layui-inline">
+					<label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="number" placeholder="输入设施编号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+
+            <script type="text/html" id="table-content-facilityControl">
+                <a lay-event="sea" style="color:#008B8B"><i class="layui-icon layui-icon-search"></i>查看</a>
+                <a lay-event="del" style="color:#008B8B"><i class="layui-icon layui-icon-delete"></i>报废</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('facility_abate', layui.factory('facility_abate')).use(['admin', 'facility_abate', 'table'], function() {
+        var $ = layui.$,
+            admin = layui.admin,
+            view = layui.view,
+            table = layui.table,
+            form = layui.form;
+
+        form.render(null, 'app-content-list');
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data) {
+            var field = data.field;
+			var number =field.number;
+			
+            //执行重载
+            table.reload('LAY-app-content-list', {
+                elem: "#LAY-app-content-list",
+                url: "/searchFacility",
+                method:"GET",
+                where:{"status":1,
+				       "number":number
+					  }
+                
+            });
+        });
+
+        var active = {    
+            //添加
+            add: function(othis) {
+                admin.popup({
+                    title: '添加设施',
+                    area: ['420px', '450px'],
+                    id: 'LAY-popup-content-add',
+                    success: function(layero, index) {
+                        view(this.id).render('facility/abateInfo').done(function() {
+                            form.render(null, 'layuiadmin-app-form-list');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function(data) {				
+								var field = data.field; //获取提交的字段
+								var name=field.name;
+								var number=field.number;
+								var region=field.region;
+								var type=field.type;
+								var buyMan=field.buyMan;
+								var buyTime=field.buyTime;
+								var data={
+										"fcName":name,
+										"fcNum":number,
+										"rId":region,
+										"tId":type,
+										"person":buyMan,
+										"buyTime":buyTime,
+										"status":1
+								}
+								//console.log(data)
+								$.ajax({
+									url:"/insertFacility",
+									//传过去
+									data:data,
+									type:"POST",
+									//传回来
+									dataType: "json",
+									success:function(data){
+										//layer.alert(data.msg);
+										layer.msg(data.msg);
+										if(data.code==0){
+											layui.table.reload('LAY-app-content-list');
+										}	
+									}
+								})
+
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                //$.ajax({});
+                                //layui.table.reload('LAY-app-content-list'); //重载表格
+                                layer.close(index); //执行关闭 
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function() {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>

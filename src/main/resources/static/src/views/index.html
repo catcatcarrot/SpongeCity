@@ -1,0 +1,150 @@
+
+<title>主页</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb" lay-filter="breadcrumb">
+                <a lay-href="">主页</a>
+                <a><cite>高级</cite></a>
+                <a><cite>Echarts集成</cite></a>
+
+            </div>
+        </div>
+
+
+        <div class="layui-card layui-form" lay-filter="component-form-element">
+            <div class="layui-card-header">下拉选择框</div>
+            <div class="layui-card-body layui-row layui-col-space10">
+                <div class="layui-col-md6">
+                    <select name="place" lay-verify="">
+                       
+                        <option value="010" selected>白马河系统</option>
+                        <option value="021">沣河2#系统</option>
+                        <option value="0571">绿廊排水系统</option>
+                        <option value="010">渭河1#系统</option>
+                        <option value="021">渭河2#系统</option>
+                        <option value="0571">新河4#系统</option>
+
+                    </select>
+                </div>
+                <div class="layui-col-md6">
+                    <select name="month" lay-verify="">
+                        <option value="023" selected>一月</option>
+                        <option value="021" >二月</option>
+                        <option value="0571" >三月</option>
+                        <option value="021" >四月</option>
+                        <option value="0571" >五月</option>
+                        <option value="021" >六月</option>
+                        <option value="0571" >七月</option>
+                        <option value="021" >八月</option>
+                        <option value="0571">九月</option>
+                        <option value="021" >十月</option>
+                        <option value="0571" >十一月</option>
+                        <option value="0571" >十二月</option>
+                        
+                    </select>
+                </div>
+              
+            </div>
+        </div>
+
+
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <!--月份-设施维修次数-->
+                    <div class="layui-card">
+                        <div class="layui-card-header">月份-设施维修次数</div>
+                        <div class="layui-card-body">
+
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-normline">
+                                <div carousel-item id="LAY-index-normline">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <!--所属汇水片区-故障次数-->
+                    <div class="layui-card">
+                        <div class="layui-card-header">所属汇水片区-故障次数</div>
+                        <div class="layui-card-body">
+
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heapline">
+                                <div carousel-item id="LAY-index-heapline">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-col-md6">
+
+                    <!--所属汇水片区-维修人员占比-->
+                    <div class="layui-card">
+                        <div class="layui-card-header">所属汇水片区-维修人员占比</div>
+                        <div class="layui-card-body">
+
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-colorline">
+                                <div carousel-item id="LAY-index-colorline">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--设施类型-维修平均时长-->
+                    <div class="layui-card">
+                        <div class="layui-card-header">设施类型-维修平均时长</div>
+                        <div class="layui-card-body">
+
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-normcol">
+                                <div carousel-item id="LAY-index-normcol">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            layui.use('senior', layui.factory('senior'));
+        </script>
+
+        <div class="layui-col-sm8">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6">
+                    <div class="layui-card">
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+<script>
+layui.use('sample', layui.factory('sample'));
+</script>

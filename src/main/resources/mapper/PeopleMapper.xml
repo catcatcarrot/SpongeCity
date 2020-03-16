@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boot.city.mapper.PeopleMapper">
+
+	<!-- List<People> getAllPeople(); -->
+	<select id="getAllPeople" resultMap="peopleMap">
+		select * from om_person p,om_level l,om_dept d,region r 
+		where p.level_id=l.id and p.dept_id=d.id and p.r_id=r.id
+		ORDER BY p.id
+	</select>
+	
+	<resultMap type="people" id="peopleMap">
+		<!-- <id column="id" property="id" /> -->
+		<result column="omp_name" property="name" />
+		<!-- <result column="sex" property="sex" />
+		<result column="entry_time" property="entryTime" />
+		<result column="dept_name" property="deptName" />
+		<result column="level_name" property="levalName" /> -->
+		<result column="omp_num" property="number" />
+		<result column="rg_name" property="region" />
+	</resultMap>
+	
+	<!-- List<People> searchPeopleByNum(String peopleNum); -->
+	<select id="searchPeopleByNum" resultMap="peopleMap">
+		select * from om_person p,om_level l,om_dept d,region r 
+		where p.level_id=l.id and p.dept_id=d.id and p.r_id=r.id 
+		and omp_num = #{peopleNum}
+	</select>
+	
+	<!-- int insertPeople(PeopleTable people); -->
+	<insert id="insertPeople">
+		insert into om_person(omp_name,sex,entry_time,dept_id,level_id,omp_num,r_id) 
+		VALUES(#{ompName},#{sex},#{entryTime},#{deptId},#{levelId},#{ompNum},#{rId})
+	</insert>
+	
+	<!-- int deletePeopleByNum(Integer number); -->
+	<delete id="deletePeopleByNum">
+		delete from om_person where omp_num =#{number}
+	</delete>
+	
+	<!-- List<People> getPeopleByRegion(Integer rId); -->
+	<select id="getPeopleByRegion" resultMap="peopleMap">
+		select * from om_person p,om_level l,om_dept d,region r 
+		where p.level_id=l.id and p.dept_id=d.id and p.r_id=r.id 
+		and r.id=#{rId}
+	</select>
+  
+</mapper>

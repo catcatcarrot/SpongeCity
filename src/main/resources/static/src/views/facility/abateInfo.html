@@ -1,0 +1,118 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">设施名称</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="name" value="{{ d.params.name || '' }}" lay-verify="required" placeholder="请输入设施名称" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设施编号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="number" value="{{ d.params.number || '' }}" lay-verify="required" placeholder="请输入设施编号" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">片区</label>
+        <div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" value="{{d.params.region}}" style="display:none" id="facilityRegionValue">
+			</script>
+            <script type="text/html" template>
+                <select name="region" lay-verify="required" class="facilityRegion">
+                  <option value="">请选择片区</option>
+                </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设施类型</label>
+        <div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" value="{{d.params.type}}" style="display:none" id="facilityTypeValue">
+			</script>
+            <script type="text/html" template>
+                <select name="type" lay-verify="required" class="facilityType">
+                   <option value="">请选择设施类型</option>
+                </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购人</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="buyMan" value="{{ d.params.buyMan|| '' }}" lay-verify="required" placeholder="请输入采购人" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购日期</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="buyTime" value="{{ d.params.buyTime || '' }}" lay-verify="required" placeholder="请输入采购日期" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}">
+    </script>
+    <div class="layui-form-item" id="submit"> 
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+			var add=$("#LAY-popup-content-add").html();
+			if(add == undefined)
+				$("#submit").attr("hidden","true");
+				
+	    	//处理片区
+	    	var facilityRegionHtml = $(".facilityRegion").html();
+			var facilityRegionValue=$("#facilityRegionValue").val();
+	        $.ajax({
+	            url: "/getAllRegion",
+	            type: "get",
+	            dataType: "json",
+	            success: function(data) {
+	                $.each(data, function(index, item) {
+	                    if(item.rgName == facilityRegionValue){
+	                    	facilityRegionHtml += "<option value=\"" + item.id + "\" selected>" + item.rgName + "</option>"
+	                    }else{
+	                    	facilityRegionHtml += "<option value=\"" + item.id + "\">" + item.rgName + "</option>"
+	                    } 
+	                });
+	                $(".facilityRegion").html(facilityRegionHtml);
+	                layui.form.render("select");
+	            }
+	        });
+	        //查询类型
+			
+	        var facilityTypeHtml = $(".facilityType").html();
+	        var facilityTypeValue=$("#facilityTypeValue").val();
+	        $.ajax({
+	            url: "/getAllFacilityType",
+	            type: "get",
+	            dataType: "json",
+	            success: function(data) {
+	                $.each(data, function(index, item) {      
+	                    if(item.name == facilityTypeValue){
+	                    	facilityTypeHtml += "<option value=\"" + item.id + "\"  selected>" + item.name + "</option>"           
+	                    }else{
+	                    	facilityTypeHtml += "<option value=\"" + item.id + "\">" + item.name + "</option>"           
+	                    }
+	                });
+	                $(".facilityType").html(facilityTypeHtml);
+	                layui.form.render("select");
+	            }
+	        });   
+	    })
+</script>

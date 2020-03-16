@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boot.city.mapper.TaskMapper">
+
+    <!-- List<TaskMapper> getTasks(); -->
+    <select id="getTasks" resultMap="taskMap">
+    	select * from task
+    </select>
+    
+    <resultMap type="task" id="taskMap">
+    	<id column="id" property="taskId" />
+    </resultMap>
+    
+    <!-- 
+    	List<Task> getTasksByDealStatus(String dealStatus);
+     --> 
+     <select id="getTasksByDealStatus" resultMap="taskMap">
+     	select * from task where deal_status=#{dealStatus}
+     </select>
+     
+    <!-- int updateTasksByDealStatus(@Param("id")Integer id,
+         @Param("dealStatus")String dealStatus); -->
+	<update id="updateTasksByDealStatus">
+		update task set deal_status = #{dealStatus},assign_time=#{time} where id =#{id}
+	</update>
+	
+	<!-- int getRegionByTask(Integer id); -->
+	<select id="getRegionByTask" resultType="java.lang.Integer">
+		select r_id from task where id=#{id}
+	</select>
+  
+</mapper>

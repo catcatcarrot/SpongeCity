@@ -1,0 +1,28 @@
+<title>数据分析-表格显示</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">数据分析</a>
+        <a><cite>表格显示</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+          <div class="layui-tab-content" lay-filter="form-analysis-data">
+				<table id="analysis-data" lay-filter="analysis-data"></table>
+		  </div>
+    </div>
+</div>
+
+<script>
+    layui.use('dataanalysis', layui.factory('dataanalysis')).use(['admin', 'dataanalysis', 'table'], function() {
+        var $ = layui.$,
+            admin = layui.admin,
+            view = layui.view,
+			form = layui.form,
+            table = layui.table;
+
+		form.render(null, 'form-analysis-data');
+    });
+</script>

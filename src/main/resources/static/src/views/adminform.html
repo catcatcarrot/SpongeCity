@@ -1,0 +1,128 @@
+<div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="name" value="{{ d.params.name || '' }}" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="sex" value="{{ d.params.sex || '' }}" lay-verify="required" placeholder="请输入性别" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">入职时间</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="entryTime" value="{{ d.params.entryTime || '' }}" lay-verify="jointime" placeholder="请输入入职时间" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属部门</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <select name="deptName" lay-verify="required" class="personDept">
+					<option value="">请选择所属部门</option>
+				</select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">级别</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                 <select name="levelName" lay-verify="required" class="personLevel">
+                  <option value="">请选择所属级别</option>
+                </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">员工编号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="number" value="{{ d.params.number || '' }}" lay-verify="required" placeholder="请输入员工编号" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">片区</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <select name="region" lay-verify="required" class="facilityRegion">
+                   <option value="">请选择片区</option>
+                </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    layui.use(['admin', 'form'], function() {
+        var $ = layui.$,
+            form = layui.form;
+    });
+</script> -->
+
+<script type="text/javascript">
+	$(function() {
+	    	//部门
+	    	var personDeptHtml = $(".personDept").html();
+	        $.ajax({
+	            url: "/getAllDepartment",
+	            type: "get",
+	            dataType: "json",
+	            success: function(data) {
+	                $.each(data, function(index, item) {
+						personDeptHtml += "<option value=\""+item.id+"\" {{ d.params.deptName == \'"+item.deptName+"\' ? 'selected' : '' }}>"+item.deptName+"</option>";
+	                });
+	                $(".personDept").html(personDeptHtml);
+					//更新渲染
+	                layui.form.render("select");
+	            }
+	        });
+	        
+			//级别
+	        var personLevelHtml = $(".personLevel").html();
+	        $.ajax({
+	            url: "/getAllLevel",
+	            type: "get",
+	            dataType: "json",
+	            success: function(data) {
+	                $.each(data, function(index, item) {      
+	                    personLevelHtml += "<option value=\"" + item.id + "\" {{ d.params.levelName ==\'"+item.levelName+"\' ? 'selected' : '' }} >" + item.levelName + "</option>"           
+	                });
+	                $(".personLevel").html(personLevelHtml);
+	                layui.form.render("select");
+	            }
+	        });   
+			
+			var facilityRegionHtml = $(".facilityRegion").html();
+			$.ajax({
+			    url: "/getAllRegion",
+			    type: "get",
+			    dataType: "json",
+			    success: function(data) {
+			        $.each(data, function(index, item) {
+			            facilityRegionHtml += "<option value=\"" + item.id + "\" {{ d.params.region ==\'"+item.rgName+"\' ? 'selected' : '' }} >" + item.rgName + "</option>"                   
+			        });
+			        $(".facilityRegion").html(facilityRegionHtml);
+			        layui.form.render("select");
+			    }
+			});
+	    })
+	
+</script>

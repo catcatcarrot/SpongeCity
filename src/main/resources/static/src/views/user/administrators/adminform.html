@@ -1,0 +1,87 @@
+<div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="username" value="{{ d.params.username || '' }}" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="sex" value="{{ d.params.sex || '' }}" lay-verify="phone" placeholder="请输入性别" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">入职时间</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="jointime" value="{{ d.params.jointime || '' }}" lay-verify="jointime" placeholder="请输入入职时间" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属部门</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <select name="department" lay-verify="required">
+        <option value="">请选择所属部门</option>
+        <option value="1" {{ d.params.department === '1' ? 'selected' : '' }}>1</option>
+        <option value="2" {{ d.params.department === '2' ? 'selected' : '' }}>2</option>
+        <option value="3" {{ d.params.department === '3' ? 'selected' : '' }}>3</option>
+        <option value="4" {{ d.params.department === '4' ? 'selected' : '' }}>4</option>
+        <option value="5" {{ d.params.department === '5' ? 'selected' : '' }}>5</option>
+      </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">级别</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="level" value="{{ d.params.level || '' }}" lay-verify="level" placeholder="请输入级别" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">员工编号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="id" value="{{ d.params.id || '' }}" lay-verify="id" placeholder="请输入员工编号" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">片区</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <select name="pq" lay-verify="required">
+        <option value="">请选择片区</option>
+        <option value="1" {{ d.params.pq === '1' ? 'selected' : '' }}>1</option>
+        <option value="2" {{ d.params.pq === '2' ? 'selected' : '' }}>2</option>
+        <option value="3" {{ d.params.pq === '3' ? 'selected' : '' }}>3</option>
+        <option value="4" {{ d.params.pq === '4' ? 'selected' : '' }}>4</option>
+        <option value="5" {{ d.params.pq === '5' ? 'selected' : '' }}>5</option>
+      </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'form'], function() {
+        var $ = layui.$,
+            form = layui.form;
+
+    });
+</script>

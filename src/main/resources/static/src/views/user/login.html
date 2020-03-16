@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>后台登录</title>
+	<meta name="renderer" content="webkit">	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">	
+	<meta name="apple-mobile-web-app-capable" content="yes">	
+	<meta name="format-detection" content="telephone=no">	
+	<!-- load css -->
+	<link rel="stylesheet" type="text/css" href="/start/css/login.css" media="all">
+</head>
+<body>
+<div class="layui-canvs"></div>
+<div class="layui-layout layui-layout-login">
+	<h1>
+		 <strong>海绵城市后台管理系统</strong>
+		 <em>Management System Of Sponge City</em>
+	</h1>
+	<div class="layui-user-icon larry-login" id="name">
+		 <input type="text" placeholder="账号" class="login_txtbx" name="admin_name" />
+	</div>
+	<div class="layui-pwd-icon larry-login" id="pwd">
+		 <input type="password" placeholder="密码" class="login_txtbx" name="admin_pwd" />
+	</div>
+    <div class="layui-val-icon larry-login" id="verifycode">
+    	<div class="layui-code-box">
+    		<input type="text" name="admin_code" placeholder="验证码" maxlength="4" class="login_txtbx">
+			<img src="/getVerifyCode" style="width:120px;height:100%;"  class="verifyCode" id="verifyImg" onclick="changeCode()">
+    	</div>
+    </div>
+    <div class="layui-submit larry-login">
+    	<input type="button" value="立即登陆" class="submit_btn"/>
+    </div>
+</div>
+<script type="text/javascript" src="/start/layui/layui.all.js"></script>
+<script type="text/javascript" src="/start/js/login.js"></script>
+<script type="text/javascript" src="/start/js/jparticle.jquery.js"></script>
+<script type="text/javascript">
+	function changeCode(){
+      var src = "/getVerifyCode?"+new Date().getTime(); //加时间戳，防止浏览器利用缓存
+	  	$('.verifyCode').attr("src",src);                  //jQuery写法
+	}
+	
+	$(function(){
+		$(".layui-canvs").jParticle({
+			background: "#141414",
+			color: "#E6E6E6"
+		});	
+		
+		 $(".submit_btn").click(function() {
+			var admin_name=$("input[name='admin_name']").val()
+			var admin_pwd=$("input[name='admin_pwd']").val()
+			var code=$("input[name='admin_code']").val()
+			
+			if(admin_name==null||admin_name==''){
+				layer.tips('请输入用户名', '#name');
+				return;
+			}	
+			
+			
+			if(admin_pwd==null||admin_pwd==''){	
+				layer.tips('请输入密码', '#pwd');
+				return;
+			}
+				
+			if(code==null||code==''){
+				layer.tips('请输入验证码', '#verifycode');
+				return;
+			} 
+			
+			var login_data= {
+				"admin_name":admin_name,
+				"admin_pwd":admin_pwd
+			}; 
+			
+			$.ajax({
+				url:"/admin/code",
+				data:{"code":code},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data.code==0){
+						$.ajax({
+							url:"/login",
+							data:login_data,
+							type:"post",
+							
+							success:function(data){
+								if(data=="ok"){
+									location.href="/"
+								}else if(data="nonono"){
+									layer.msg("账号或密码错误");
+									$("input[name='admin_pwd']").val("");
+									$("input[name='admin_code']").val("");
+									var src = "/getVerifyCode?"+new Date().getTime();
+									$('.verifyCode').attr("src",src);
+								}         					
+							}
+						})
+					}else{
+						layer.msg(data.msg);
+						$("input[name='admin_code']").val("");
+					    var src = "/getVerifyCode?"+new Date().getTime();
+						$('.verifyCode').attr("src",src); 
+					}         					
+				}
+			})
+			 
+		}); 		
+	});
+</script>
+
+</body>
+</html>

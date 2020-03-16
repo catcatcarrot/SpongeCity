@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boot.city.mapper.SysUserMapper">
+     
+    <select id="selectById" resultType="sysUser">
+    	SELECT * FROM sys_user WHERE id = #{id}
+    </select>
+    
+    <select id="selectByName" resultType="sysUser">
+    	SELECT * FROM sys_user WHERE name = #{name}
+    </select>
+    
+    <!-- String selectPwdByName(String name); -->
+    <select id="selectPwdByName" resultType="java.lang.String">
+    	select password from sys_user where name = #{name}
+    </select>
+    
+    <!-- int updatePwdByName(String name); -->
+    <update id="updatePwdByName">
+    	update sys_user set password = #{pwd} where name=#{name}
+    </update>
+  
+</mapper>
